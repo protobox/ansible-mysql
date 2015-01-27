@@ -16,7 +16,7 @@
   mysql_user: >
     name=root
     host={{ item }}
-    password={{ mysql.root_password|default('') }}
+    password={{ mysql_root_password|default('') }}
     priv=*.*:ALL,GRANT
   with_items:
     - "{{ ansible_hostname }}"
@@ -51,14 +51,23 @@
     - "{{ ansible_fqdn }}"
     - localhost
 
+- name: users | install users
+  mysql_user: >
+    name={{ item.user }}
+    password={{ item.password }}
+    state=present
+  with_items: mysql_users
+  when: mysql_users is defined
+
+
 # TODO : priv={{ item.name }}:{{ item.grant }}
 # priv=*.*:ALL host='%'
-- name: users | install all users
+- name: users | install user database access
   mysql_user: >
     name={{ item.user }}
     password={{ item.password }}
     host={{ item.host }}
     priv=*.*:{{ item.grant|join(',') }}
     state=present
-  with_items: mysql.databases
-  when: mysql.databases is defined
+  with_items: mysql_databases
+  when: mysql_databases is defined

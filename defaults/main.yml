@@ -1,0 +1,16 @@
+
+mysql_root_password: 'root'
+
+mysql_databases:
+  - name: app
+    host: localhost
+    user: user
+    password: user
+    grant:
+      - ALL
+    #sql_file: '/srv/www/data/sql/app.sql'
+    sql_file: ''
+
+mysql_users:
+  - user: user
+    password: user

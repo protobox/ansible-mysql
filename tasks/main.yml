@@ -6,4 +6,4 @@
 - include: users.yml
 
 - include: databases.yml
-  when: mysql.databases is defined
+  when: mysql_databases is defined
